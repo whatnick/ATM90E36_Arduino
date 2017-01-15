@@ -15,7 +15,8 @@
 
 unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val) {
 
-  //unsigned char* data = (unsigned char*)&val;
+  unsigned char* data = (unsigned char*)&val;
+  unsigned char* adata = (unsigned char*)&address;
   unsigned short output;
   unsigned short address1;
   //SPI interface rate is 200 to 160k bps. It Will need to be slowed down for EnergyIC
@@ -28,6 +29,7 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
 
   //Set read write flag
   address |= RW << 15;
+  //Swap address bytes
   address1 = (address >> 8) | (address << 8);
   address = address1;
 
@@ -39,7 +41,13 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   //enable chip and wait for SPI bus to activate
   digitalWrite (energy_CS, LOW);
   delayMicroseconds(10);
-  SPI.transfer16(address);
+  //Write address byte by byte
+  for (byte i=0; i<2; i++)
+  {
+    SPI.transfer (*adata);
+    adata++;
+  }
+  //SPI.transfer16(address);
   /* Must wait 4 us for data to become valid */
   delayMicroseconds(4);
 
@@ -47,11 +55,21 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   //Do for each byte in transfer
   if (RW)
   {
-    val = SPI.transfer16(0x00);
+	for (byte i=0; i<2; i++)
+    {
+      *data = SPI.transfer (0x00);
+      data++;
+    }
+    //val = SPI.transfer16(0x00);
   }
   else
   {
-    SPI.transfer16(val);
+	for (byte i=0; i<2; i++)
+    {
+      SPI.transfer(*data);             // write all the bytes
+      data++;
+    }
+    //SPI.transfer16(val);
   }
 
   digitalWrite(energy_CS, HIGH);
@@ -62,6 +80,8 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
 
   output = (val >> 8) | (val << 8); //reverse MSB and LSB
   return output;
+  //Use with transfer16
+  //return val;
 }
 
 double  GetLineVoltage() {
