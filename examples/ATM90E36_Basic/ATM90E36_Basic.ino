@@ -18,6 +18,7 @@ void setup() {
   Serial.begin(9600);
   /*Initialise the ATM90E36 + SPI port */
   InitEnergyIC();
+  delay(1000);
 }
 
 
@@ -25,28 +26,26 @@ void setup() {
 void loop() {
   
   /*Repeatedly fetch some values from the ATM90E36 */
-  double voltageA,frequency,voltageB,voltageC,currentA,currentB,currentC,power,pf,new_current,new_power;
-  int status0=GetSysStatus0();
-  int status1=GetSysStatus1();
+  double voltageA,freq,voltageB,voltageC,currentA,currentB,currentC,power,pf,new_current,new_power;
+  int sys0=GetSysStatus0();
+  int sys1=GetSysStatus1();
   int en0=GetMeterStatus0();
   int en1=GetMeterStatus1();
-  if(status0){
-    voltageA=0;voltageB=0;voltageC=0;currentA=0;power=0;pf=0;
-  }
-  else
-  {
-    Serial.println("e0"+String(en0,HEX)+"E0");
-    delay(10);
-    Serial.println("e1"+String(en1,HEX)+"E1");
-    voltageA=GetLineVoltage();
-    delay(10);
-    Serial.println("v"+String(voltageA,HEX)+"v");
-    currentA = GetLineCurrentA();
-    delay(10);
-    Serial.println("i"+String(currentA,HEX)+"i");
-    frequency=GetFrequency();
-    delay(10);
-    Serial.println("f"+String(frequency,HEX)+"f");
-  }
+  Serial.println("S0:"+String(sys0,HEX));
+  delay(10);
+  Serial.println("S1:"+String(sys1,HEX));
+  delay(10);
+  Serial.println("E0:"+String(en0,HEX));
+  delay(10);
+  Serial.println("E1:"+String(en1,HEX));
+  voltageA=GetLineVoltage();
+  delay(10);
+  Serial.println("v"+String(voltageA)+"V");
+  currentA = GetLineCurrentA();
+  delay(10);
+  Serial.println("i"+String(currentA)+"A");
+  freq=GetFrequency();
+  delay(10);
+  Serial.println("f"+String(freq)+"Hz");
   delay(1000);
 }
