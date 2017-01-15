@@ -15,7 +15,7 @@
 
 void setup() {
   /* Initialize the serial port to host */
-  Serial.begin(9600);
+  Serial.begin(115200);
   /*Initialise the ATM90E36 + SPI port */
   InitEnergyIC();
   delay(1000);
@@ -31,13 +31,13 @@ void loop() {
   int sys1=GetSysStatus1();
   int en0=GetMeterStatus0();
   int en1=GetMeterStatus1();
-  Serial.println("S0:"+String(sys0,HEX));
+  Serial.println("S0:0x"+String(sys0,HEX));
   delay(10);
-  Serial.println("S1:"+String(sys1,HEX));
+  Serial.println("S1:0x"+String(sys1,HEX));
   delay(10);
-  Serial.println("E0:"+String(en0,HEX));
+  Serial.println("E0:0x"+String(en0,HEX));
   delay(10);
-  Serial.println("E1:"+String(en1,HEX));
+  Serial.println("E1:0x"+String(en1,HEX));
   voltageA=GetLineVoltage();
   delay(10);
   Serial.println("v"+String(voltageA)+"V");
