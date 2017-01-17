@@ -16,6 +16,10 @@
 void setup() {
   /* Initialize the serial port to host */
   Serial.begin(115200);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
+  Serial.println("Start ATM90E36");
   /*Initialise the ATM90E36 + SPI port */
   InitEnergyIC();
   delay(1000);
@@ -38,12 +42,20 @@ void loop() {
   Serial.println("E0:0x"+String(en0,HEX));
   delay(10);
   Serial.println("E1:0x"+String(en1,HEX));
-  voltageA=GetLineVoltage();
+  voltageA=GetLineVoltageA();
+  Serial.println("VA:"+String(voltageA)+"V");
+  voltageB=GetLineVoltageB();
+  Serial.println("VB:"+String(voltageB)+"V");
+  voltageC=GetLineVoltageC();
+  Serial.println("VC:"+String(voltageC)+"V");
   delay(10);
-  Serial.println("v"+String(voltageA)+"V");
   currentA = GetLineCurrentA();
+  Serial.println("IA:"+String(currentA)+"A");
+  currentB = GetLineCurrentB();
+  Serial.println("IB:"+String(currentB)+"A");
+  currentC = GetLineCurrentC();
+  Serial.println("IC:"+String(currentC)+"A");
   delay(10);
-  Serial.println("i"+String(currentA)+"A");
   freq=GetFrequency();
   delay(10);
   Serial.println("f"+String(freq)+"Hz");

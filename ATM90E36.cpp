@@ -84,8 +84,18 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   //return val;
 }
 
-double  GetLineVoltage() {
+double  GetLineVoltageA() {
   unsigned short voltage = CommEnergyIC(1, UrmsA, 0xFFFF);
+  return (double)voltage / 238.5;
+}
+
+double  GetLineVoltageB() {
+  unsigned short voltage = CommEnergyIC(1, UrmsB, 0xFFFF);
+  return (double)voltage / 238.5;
+}
+
+double  GetLineVoltageC() {
+  unsigned short voltage = CommEnergyIC(1, UrmsC, 0xFFFF);
   return (double)voltage / 238.5;
 }
 
@@ -98,6 +108,16 @@ unsigned short  GetMeterStatus1() {
 }
 double GetLineCurrentA() {
   unsigned short current = CommEnergyIC(1, IrmsA, 0xFFFF);
+  return (double)current * 7.13 / 1000;
+}
+
+double GetLineCurrentB() {
+  unsigned short current = CommEnergyIC(1, IrmsB, 0xFFFF);
+  return (double)current * 7.13 / 1000;
+}
+
+double GetLineCurrentC() {
+  unsigned short current = CommEnergyIC(1, IrmsC, 0xFFFF);
   return (double)current * 7.13 / 1000;
 }
 
@@ -172,7 +192,7 @@ void InitEnergyIC() {
   CommEnergyIC(0, MMode1, 0x5555); //PGA Gain Configuration. x2 for DPGA and PGA. See pg 59 of datasheet
   CommEnergyIC(0, PStartTh, 0x08BD); //Active Startup Power Threshold
   CommEnergyIC(0, QStartTh, 0x0AEC); //Reactive Startup Power Threshold
-  //CommEnergyIC(0, CSZero, 0x4A34); //Write CSOne, as self calculated
+  CommEnergyIC(0, CSZero, 0x5F59); //Write CSOne, as self calculated
   
   Serial.print("Checksum 0:");
   Serial.println(CommEnergyIC(1, CSZero, 0x0000), HEX); //Checksum 0. Needs to be calculated based off the above values.
@@ -181,13 +201,17 @@ void InitEnergyIC() {
   CommEnergyIC(0, CalStart, 0x5678); //Metering calibration startup command. Register 41 to 4D need to be set
   CommEnergyIC(0, GainA, 0x1D39); //Line calibration gain
   CommEnergyIC(0, PhiA, 0x0000); //Line calibration angle
+  CommEnergyIC(0, GainB, 0x1D39); //Line calibration gain
+  CommEnergyIC(0, PhiB, 0x0000); //Line calibration angle
+  CommEnergyIC(0, GainC, 0x1D39); //Line calibration gain
+  CommEnergyIC(0, PhiC, 0x0000); //Line calibration angle
   CommEnergyIC(0, PoffsetA, 0x0000); //A line active power offset
   CommEnergyIC(0, QoffsetA, 0x0000); //A line reactive power offset
   CommEnergyIC(0, PoffsetB, 0x0000); //B line active power offset
   CommEnergyIC(0, QoffsetB, 0x0000); //B line reactive power offset
   CommEnergyIC(0, PoffsetC, 0x0000); //C line active power offset
   CommEnergyIC(0, QoffsetC, 0x0000); //C line reactive power offset
-  //CommEnergyIC(0, CSOne, 0x4A34); //Write CSOne, as self calculated
+  CommEnergyIC(0, CSOne, 0x2402); //Write CSOne, as self calculated
   
   Serial.print("Checksum 1:");
   Serial.println(CommEnergyIC(1, CSOne, 0x0000), HEX); //Checksum 1. Needs to be calculated based off the above values.
@@ -207,7 +231,7 @@ void InitEnergyIC() {
   CommEnergyIC(0, IgainC, 0x1BC9); //C line current gain
   CommEnergyIC(0, UoffsetC, 0x0000); //C Voltage offset
   CommEnergyIC(0, IoffsetC, 0x0000); //C line current offset
-  //CommEnergyIC(0, CSThree, 0xA64A); //Write CSThree, as self calculated
+  CommEnergyIC(0, CSThree, 0xA694); //Write CSThree, as self calculated
 
   Serial.print("Checksum 3:");
   Serial.println(CommEnergyIC(1, CSThree, 0x0000), HEX); //Checksum 3. Needs to be calculated based off the above values.

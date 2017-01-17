@@ -111,8 +111,12 @@
 const int energy_CS =10;
 
 unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val);
-double  GetLineVoltage();
+double  GetLineVoltageA();
+double  GetLineVoltageB();
+double  GetLineVoltageC();
 double GetLineCurrentA();
+double GetLineCurrentB();
+double GetLineCurrentC();
 double GetActivePower();
 double GetFrequency();
 double GetPowerFactor();
