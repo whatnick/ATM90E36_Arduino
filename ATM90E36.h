@@ -108,24 +108,30 @@
 
 // pins used for the connection with the sensor
 // the other you need are controlled by the SPI library):
-const int energy_CS =10;
-
-unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val);
-double  GetLineVoltageA();
-double  GetLineVoltageB();
-double  GetLineVoltageC();
-double GetLineCurrentA();
-double GetLineCurrentB();
-double GetLineCurrentC();
-double GetActivePower();
-double GetFrequency();
-double GetPowerFactor();
-double GetImportEnergy();
-double GetExportEnergy();
-void InitEnergyIC();
-unsigned short GetSysStatus0();
-unsigned short GetSysStatus1();
-unsigned short  GetMeterStatus0();
-unsigned short  GetMeterStatus1();
-
+class ATM90E36
+{
+	private:
+		int _cs;
+		unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val);
+	public:
+		ATM90E36(int pin=10);	
+		double  GetLineVoltageA();
+		double  GetLineVoltageB();
+		double  GetLineVoltageC();
+		double GetLineCurrentA();
+		double GetLineCurrentB();
+		double GetLineCurrentC();
+		double GetActivePowerA();
+		double GetActivePowerB();
+		double GetActivePowerC();
+		double GetFrequency();
+		double GetPowerFactor();
+		double GetImportEnergy();
+		double GetExportEnergy();
+		void InitEnergyIC();
+		unsigned short GetSysStatus0();
+		unsigned short GetSysStatus1();
+		unsigned short  GetMeterStatus0();
+		unsigned short  GetMeterStatus1();
+};
 #endif

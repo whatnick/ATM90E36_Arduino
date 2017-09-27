@@ -13,7 +13,12 @@
 #include <SPI.h>
 #include <ATM90E36.h>
 
-unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val) {
+ATM90E36::ATM90E36(int pin)
+{
+	_cs = pin;
+}
+
+unsigned short ATM90E36::CommEnergyIC(unsigned char RW, unsigned short address, unsigned short val) {
 
   unsigned char* data = (unsigned char*)&val;
   unsigned char* adata = (unsigned char*)&address;
@@ -21,7 +26,7 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   unsigned short address1;
   //SPI interface rate is 200 to 160k bps. It Will need to be slowed down for EnergyIC
 #if !defined(ENERGIA)
-  SPISettings settings(200000, MSBFIRST, SPI_MODE3);
+  SPISettings settings(160000, MSBFIRST, SPI_MODE3);
 #endif
   //switch MSB and LSB of value
   output = (val >> 8) | (val << 8);
@@ -39,7 +44,7 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   SPI.beginTransaction(settings);
 #endif
   //enable chip and wait for SPI bus to activate
-  digitalWrite (energy_CS, LOW);
+  digitalWrite (_cs, LOW);
   delayMicroseconds(10);
   //Write address byte by byte
   for (byte i=0; i<2; i++)
@@ -72,7 +77,7 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
     //SPI.transfer16(val);
   }
 
-  digitalWrite(energy_CS, HIGH);
+  digitalWrite(_cs, HIGH);
   delayMicroseconds(10);
 #if !defined(ENERGIA)
   SPI.endTransaction();
@@ -84,54 +89,64 @@ unsigned short CommEnergyIC(unsigned char RW, unsigned short address, unsigned s
   //return val;
 }
 
-double  GetLineVoltageA() {
+double  ATM90E36::GetLineVoltageA() {
   unsigned short voltage = CommEnergyIC(1, UrmsA, 0xFFFF);
   return (double)voltage / 238.5;
 }
 
-double  GetLineVoltageB() {
+double  ATM90E36::GetLineVoltageB() {
   unsigned short voltage = CommEnergyIC(1, UrmsB, 0xFFFF);
   return (double)voltage / 238.5;
 }
 
-double  GetLineVoltageC() {
+double  ATM90E36::GetLineVoltageC() {
   unsigned short voltage = CommEnergyIC(1, UrmsC, 0xFFFF);
   return (double)voltage / 238.5;
 }
 
-unsigned short  GetMeterStatus0() {
+unsigned short  ATM90E36::GetMeterStatus0() {
   return CommEnergyIC(1, EnStatus0, 0xFFFF);
 }
 
-unsigned short  GetMeterStatus1() {
+unsigned short  ATM90E36::GetMeterStatus1() {
   return CommEnergyIC(1, EnStatus1, 0xFFFF);
 }
-double GetLineCurrentA() {
+double ATM90E36::GetLineCurrentA() {
   unsigned short current = CommEnergyIC(1, IrmsA, 0xFFFF);
   return (double)current * 7.13 / 1000;
 }
 
-double GetLineCurrentB() {
+double ATM90E36::GetLineCurrentB() {
   unsigned short current = CommEnergyIC(1, IrmsB, 0xFFFF);
   return (double)current * 7.13 / 1000;
 }
 
-double GetLineCurrentC() {
+double ATM90E36::GetLineCurrentC() {
   unsigned short current = CommEnergyIC(1, IrmsC, 0xFFFF);
   return (double)current * 7.13 / 1000;
 }
 
-double GetActivePowerA() {
+double ATM90E36::GetActivePowerA() {
   short int apower = (short int)CommEnergyIC(1, PmeanA, 0xFFFF); //Complement, MSB is signed bit
   return (double)apower * 2.94;
 }
 
-double GetFrequency() {
+double ATM90E36::GetActivePowerB() {
+  short int apower = (short int)CommEnergyIC(1, PmeanB, 0xFFFF); //Complement, MSB is signed bit
+  return (double)apower * 2.94;
+}
+
+double ATM90E36::GetActivePowerC() {
+  short int apower = (short int)CommEnergyIC(1, PmeanC, 0xFFFF); //Complement, MSB is signed bit
+  return (double)apower * 2.94;
+}
+
+double ATM90E36::GetFrequency() {
   unsigned short freq = CommEnergyIC(1, Freq, 0xFFFF);
   return (double)freq / 100;
 }
 
-double GetPowerFactor() {
+double ATM90E36::GetPowerFactor() {
   short int pf = (short int)CommEnergyIC(1, PFmeanT, 0xFFFF); //MSB is signed bit
   //if negative
   if (pf & 0x8000) {
@@ -140,33 +155,33 @@ double GetPowerFactor() {
   return (double)pf / 1000;
 }
 
-double GetImportEnergy() {
+double ATM90E36::GetImportEnergy() {
   //Register is cleared after reading
   unsigned short ienergy = CommEnergyIC(1, APenergyA, 0xFFFF);
   return (double)ienergy / 10 / 1000; //returns kWh if PL constant set to 1000imp/kWh
 }
 
-double GetExportEnergy() {
+double ATM90E36::GetExportEnergy() {
   //Register is cleared after reading
   unsigned short eenergy = CommEnergyIC(1, ANenergyT, 0xFFFF);
   return (double)eenergy / 10 / 1000; //returns kWh if PL constant set to 1000imp/kWh
 }
 
-unsigned short GetSysStatus0() {
+unsigned short ATM90E36::GetSysStatus0() {
   return CommEnergyIC(1, SysStatus0, 0xFFFF);
 }
 
-unsigned short GetSysStatus1() {
+unsigned short ATM90E36::GetSysStatus1() {
   return CommEnergyIC(1, SysStatus1, 0xFFFF);
 }
 
 
-void InitEnergyIC() {
+void ATM90E36::InitEnergyIC() {
   //Serial.println("Initialising:");
   unsigned short systemstatus0;
 
   //pinMode(energy_IRQ,INPUT );
-  pinMode(energy_CS, OUTPUT );
+  pinMode(_cs, OUTPUT );
   //pinMode(energy_WO,INPUT );
 
   /* Enable SPI */

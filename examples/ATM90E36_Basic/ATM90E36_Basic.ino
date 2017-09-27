@@ -13,6 +13,8 @@
 #include <SPI.h>
 #include <ATM90E36.h>
 
+ATM90E36 eic;
+
 void setup() {
   /* Initialize the serial port to host */
   Serial.begin(115200);
@@ -21,7 +23,7 @@ void setup() {
   }
   Serial.println("Start ATM90E36");
   /*Initialise the ATM90E36 + SPI port */
-  InitEnergyIC();
+  eic.InitEnergyIC();
   delay(1000);
 }
 
@@ -31,10 +33,10 @@ void loop() {
   
   /*Repeatedly fetch some values from the ATM90E36 */
   double voltageA,freq,voltageB,voltageC,currentA,currentB,currentC,power,pf,new_current,new_power;
-  int sys0=GetSysStatus0();
-  int sys1=GetSysStatus1();
-  int en0=GetMeterStatus0();
-  int en1=GetMeterStatus1();
+  int sys0=eic.GetSysStatus0();
+  int sys1=eic.GetSysStatus1();
+  int en0=eic.GetMeterStatus0();
+  int en1=eic.GetMeterStatus1();
   Serial.println("S0:0x"+String(sys0,HEX));
   delay(10);
   Serial.println("S1:0x"+String(sys1,HEX));
@@ -42,21 +44,21 @@ void loop() {
   Serial.println("E0:0x"+String(en0,HEX));
   delay(10);
   Serial.println("E1:0x"+String(en1,HEX));
-  voltageA=GetLineVoltageA();
+  voltageA=eic.GetLineVoltageA();
   Serial.println("VA:"+String(voltageA)+"V");
-  voltageB=GetLineVoltageB();
+  voltageB=eic.GetLineVoltageB();
   Serial.println("VB:"+String(voltageB)+"V");
-  voltageC=GetLineVoltageC();
+  voltageC=eic.GetLineVoltageC();
   Serial.println("VC:"+String(voltageC)+"V");
   delay(10);
-  currentA = GetLineCurrentA();
+  currentA = eic.GetLineCurrentA();
   Serial.println("IA:"+String(currentA)+"A");
-  currentB = GetLineCurrentB();
+  currentB = eic.GetLineCurrentB();
   Serial.println("IB:"+String(currentB)+"A");
-  currentC = GetLineCurrentC();
+  currentC = eic.GetLineCurrentC();
   Serial.println("IC:"+String(currentC)+"A");
   delay(10);
-  freq=GetFrequency();
+  freq=eic.GetFrequency();
   delay(10);
   Serial.println("f"+String(freq)+"Hz");
   delay(1000);
