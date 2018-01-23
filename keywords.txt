@@ -1,0 +1,75 @@
+#######################################
+# Syntax Coloring Map For ATM90E36
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+ATM90E36	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+
+GetLineVoltageA	KEYWORD2
+GetLineVoltageB	KEYWORD2
+GetLineVoltageC	KEYWORD2
+
+GetLineCurrentA	KEYWORD2
+GetLineCurrentB	KEYWORD2
+GetLineCurrentC	KEYWORD2
+GetLineCurrentN	KEYWORD2
+
+GetActivePowerA	KEYWORD2
+GetActivePowerB	KEYWORD2
+GetActivePowerC	KEYWORD2
+GetTotalActivePower	KEYWORD2
+
+GetReactivePowerA	KEYWORD2
+GetReactivePowerB	KEYWORD2
+GetReactivePowerC	KEYWORD2
+GetTotalReactivePower	KEYWORD2
+
+GetApparentPowerA	KEYWORD2
+GetApparentPowerB	KEYWORD2
+GetApparentPowerC	KEYWORD2
+GetTotalApparentPower	KEYWORD2
+
+GetFrequency	KEYWORD2
+GetTemperature	KEYWORD2
+
+GetPowerFactorA	KEYWORD2
+GetPowerFactorB	KEYWORD2
+GetPowerFactorC	KEYWORD2
+GetTotalPowerFactor	KEYWORD2
+
+GetPhaseA	KEYWORD2
+GetPhaseB	KEYWORD2
+GetPhaseC	KEYWORD2
+
+GetValueRegister	KEYWORD2
+
+SetVoltageGainA	KEYWORD2
+SetVoltageGainB	KEYWORD2
+SetVoltageGainC	KEYWORD2
+
+SetCurrentGainA	KEYWORD2
+SetCurrentGainB	KEYWORD2
+SetCurrentGainC	KEYWORD2
+SetCurrentGainN	KEYWORD2
+
+GetImportEnergy	KEYWORD2
+GetExportEnergy	KEYWORD2
+GetSysStatus0	KEYWORD2
+GetSysStatus1	KEYWORD2
+GetMeterStatus0	KEYWORD2
+GetMeterStatus1	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+WRITE	LITERAL1
+READ	LITERAL1
+
