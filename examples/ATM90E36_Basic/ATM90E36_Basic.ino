@@ -13,7 +13,7 @@
 #include <SPI.h>
 #include <ATM90E36.h>
 
-ATM90E36 eic;
+ATM90E36 eic(10);
 
 void setup() {
   /* Initialize the serial port to host */
@@ -23,7 +23,7 @@ void setup() {
   }
   Serial.println("Start ATM90E36");
   /*Initialise the ATM90E36 + SPI port */
-  eic.InitEnergyIC();
+  eic.begin();
   delay(1000);
 }
 

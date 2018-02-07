@@ -19,7 +19,7 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(OLED_RESET);
 
-ATM90E36 eics[2] = {ATM90E36(),ATM90E36(9)};
+ATM90E36 eics[2] = {ATM90E36(10),ATM90E36(9)};
 
 void setup() {
   /* Initialize the serial port to host */
@@ -40,9 +40,9 @@ void setup() {
   display.setTextColor(WHITE);
   display.setCursor(0,0);
   /*Initialise the ATM90E36 + SPI port */
-  eics[0].InitEnergyIC();
+  eics[0].begin();
   delay(1000);
-  eics[1].InitEnergyIC();
+  eics[1].begin();
   delay(1000);
 }
 
