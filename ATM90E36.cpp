@@ -21,8 +21,16 @@ unsigned short ATM90E36::CommEnergyIC(unsigned char RW, unsigned short address, 
   unsigned short address1;
 
   // Slows the SPI interface to communicate
-#if !defined(ENERGIA)
-  SPISettings settings(160000, MSBFIRST, SPI_MODE0);
+#if !defined(ENERGIA) && !defined(ESP8266) && !defined(ARDUINO_ARCH_SAMD)
+  SPISettings settings(200000, MSBFIRST, SPI_MODE0);
+#endif
+
+#if defined(ESP8266)
+  SPISettings settings(200000, MSBFIRST, SPI_MODE2);
+#endif
+
+#if defined(ARDUINO_ARCH_SAMD)
+  SPISettings settings(200000, MSBFIRST, SPI_MODE3);
 #endif
 
   // Switch MSB and LSB of value
