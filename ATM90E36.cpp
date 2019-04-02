@@ -239,6 +239,10 @@ double ATM90E36::GetFrequency() {
 // POWER FACTOR
 double ATM90E36::GetPowerFactorA() {
   short pf = (short) CommEnergyIC(READ, PFmeanA, 0xFFFF); 
+  Serial.print(pf);
+  Serial.print(", ");
+  Serial.print("From Lib A : ");
+  Serial.println(String(pf, HEX));
   //if negative
   if (pf & 0x8000) {
     pf = (pf & 0x7FFF) * -1;
@@ -247,6 +251,10 @@ double ATM90E36::GetPowerFactorA() {
 }
 double ATM90E36::GetPowerFactorB() {
   short pf = (short) CommEnergyIC(READ, PFmeanB, 0xFFFF); 
+  Serial.print(pf);
+  Serial.print(", ");
+  Serial.print("From Lib B : ");
+  Serial.println(String(pf, HEX));
   if (pf & 0x8000) {
     pf = (pf & 0x7FFF) * -1;
   }
@@ -254,6 +262,10 @@ double ATM90E36::GetPowerFactorB() {
 }
 double ATM90E36::GetPowerFactorC() {
   short pf = (short) CommEnergyIC(READ, PFmeanC, 0xFFFF); 
+  Serial.print("From Lib C : ");
+  Serial.print(pf);
+  Serial.print(", ");
+  Serial.println(String(pf, HEX));
   //if negative
   if (pf & 0x8000) {
     pf = (pf & 0x7FFF) * -1;
@@ -271,15 +283,15 @@ double ATM90E36::GetTotalPowerFactor() {
 
 // PHASE ANGLE
 double ATM90E36::GetPhaseA() {
-  signed short apower = (signed short) CommEnergyIC(READ, PAngleA, 0xFFFF);
+  signed short apower = (signed short) CommEnergyIC(READ, UangleA, 0xFFFF);
   return (double)apower / 10;
 }
 double ATM90E36::GetPhaseB() {
-  signed short apower = (signed short) CommEnergyIC(READ, PAngleB, 0xFFFF);
+  signed short apower = (signed short) CommEnergyIC(READ, UangleB, 0xFFFF);
   return (double)apower / 10;
 }
 double ATM90E36::GetPhaseC() {
-  signed short apower = (signed short) CommEnergyIC(READ, PAngleC, 0xFFFF);
+  signed short apower = (signed short) CommEnergyIC(READ, UangleC, 0xFFFF);
   return (double)apower / 10;
 }
 
@@ -386,14 +398,14 @@ bool ATM90E36::calibrationError()
   }
 
 #ifdef DEBUG_SERIAL
-    Serial.print("Checksum 0: ");
-    Serial.println(CS0);
-    Serial.print("Checksum 1: ");
-    Serial.println(CS1);
-    Serial.print("Checksum 2: ");
-    Serial.println(CS2);
-    Serial.print("Checksum 3: ");
-    Serial.println(CS3);
+    // Serial.print("Checksum 0: ");
+    // Serial.println(CS0);
+    // Serial.print("Checksum 1: ");
+    // Serial.println(CS1);
+    // Serial.print("Checksum 2: ");
+    // Serial.println(CS2);
+    // Serial.print("Checksum 3: ");
+    // Serial.println(CS3);
 #endif
 
   if (CS0 || CS1 || CS2 || CS3) return (true); 

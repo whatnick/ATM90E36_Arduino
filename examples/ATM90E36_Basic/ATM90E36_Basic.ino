@@ -33,33 +33,58 @@ void loop() {
   
   /*Repeatedly fetch some values from the ATM90E36 */
   double voltageA,freq,voltageB,voltageC,currentA,currentB,currentC,power,pf,new_current,new_power;
+  double pfa,pfb,pfc,pft,paa,pab,pac,pat;
+
   int sys0=eic.GetSysStatus0();
   int sys1=eic.GetSysStatus1();
   int en0=eic.GetMeterStatus0();
   int en1=eic.GetMeterStatus1();
-  Serial.println("S0:0x"+String(sys0,HEX));
-  delay(10);
-  Serial.println("S1:0x"+String(sys1,HEX));
-  delay(10);
-  Serial.println("E0:0x"+String(en0,HEX));
-  delay(10);
-  Serial.println("E1:0x"+String(en1,HEX));
+  // Serial.println("S0:0x"+String(sys0,HEX));
+  // delay(10);
+  // Serial.println("S1:0x"+String(sys1,HEX));
+  // delay(10);
+  // Serial.println("E0:0x"+String(en0,HEX));
+  // delay(10);
+  // Serial.println("E1:0x"+String(en1,HEX));
+
   voltageA=eic.GetLineVoltageA();
   Serial.println("VA:"+String(voltageA)+"V");
   voltageB=eic.GetLineVoltageB();
   Serial.println("VB:"+String(voltageB)+"V");
   voltageC=eic.GetLineVoltageC();
   Serial.println("VC:"+String(voltageC)+"V");
-  delay(10);
+  delay(100);
+  
   currentA = eic.GetLineCurrentA();
   Serial.println("IA:"+String(currentA)+"A");
   currentB = eic.GetLineCurrentB();
   Serial.println("IB:"+String(currentB)+"A");
   currentC = eic.GetLineCurrentC();
   Serial.println("IC:"+String(currentC)+"A");
-  delay(10);
+  delay(100);
+
   freq=eic.GetFrequency();
-  delay(10);
-  Serial.println("f"+String(freq)+"Hz");
-  delay(1000);
+  delay(100);
+  Serial.println("Freq: "+String(freq)+"Hz");
+  
+
+  Serial.println("PHASE ANGLES \n");
+  paa = eic.GetPhaseA();
+  Serial.println("PAA : "+ String(paa));
+  pab = eic.GetPhaseB();
+  Serial.println("PAB : "+ String(pab));
+  pac = eic.GetPhaseC();
+  Serial.println("PAC : "+ String(pac));
+  delay(100);
+
+  Serial.println("Power Factors \n");
+  pfa = eic.GetPowerFactorA();
+  Serial.println("PFA : "+ String(pfa));
+  pfb = eic.GetPowerFactorB();
+  Serial.println("PFB : "+ String(pfb));
+  pfc = eic.GetPowerFactorC();
+  Serial.println("PFC : "+ String(pfc));
+  delay(100);
+
+  delay(3000);
 }
