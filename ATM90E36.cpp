@@ -486,10 +486,10 @@ void ATM90E36::begin()
   CommEnergyIC(WRITE, CSThree, 0x02F6);     // Checksum 3
 
   // Done with the configuration
-  CommEnergyIC(WRITE, ConfigStart, 0x5678);
-  CommEnergyIC(WRITE, CalStart, 0x5678);    // 0x6886 //0x5678 //8765);
-  CommEnergyIC(WRITE, HarmStart, 0x5678);   // 0x6886 //0x5678 //8765);    
-  CommEnergyIC(WRITE, AdjStart, 0x5678);    // 0x6886 //0x5678 //8765);  
+  CommEnergyIC(WRITE, ConfigStart, 0x8765);
+  CommEnergyIC(WRITE, CalStart, 0x8765);    // 0x6886 //0x5678 //8765);
+  CommEnergyIC(WRITE, HarmStart, 0x8765);   // 0x6886 //0x5678 //8765);    
+  CommEnergyIC(WRITE, AdjStart, 0x8765);    // 0x6886 //0x5678 //8765);  
 
   CommEnergyIC(WRITE, SoftReset, 0x789A);   // Perform soft reset  
 }
