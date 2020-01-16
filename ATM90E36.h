@@ -238,7 +238,14 @@
 
 		/* Initialization Functions */	
 		void begin();
-		
+		void calibrate(unsigned int Ugaina,unsigned int Ugainb,unsigned int Ugainc, unsigned int Igaina, unsigned int Igainb, unsigned int Igainc,unsigned int mMode0 );
+				/* Main Electrical Parameters (GET)*/
+		double GetVHarmA();
+		double GetVHarmB();
+		double GetVHarmC();
+		double GetCHarmA();
+		double GetCHarmB();
+		double GetCHarmC();
 		/* Main Electrical Parameters (GET)*/
 		double GetLineVoltageA();
 		double GetLineVoltageB();
@@ -283,13 +290,14 @@
 		/* Energy Consumption */
 		double GetImportEnergy();
 		double GetExportEnergy();
+		double GetImportEnergydiff();
 
 		/* System Status */
 		unsigned short GetSysStatus0();
 		unsigned short GetSysStatus1();
 		unsigned short GetMeterStatus0();
 		unsigned short GetMeterStatus1();
-
+		bool errorCheckSPI();
 		/* Checksum Function */
 		bool calibrationError();
 	};

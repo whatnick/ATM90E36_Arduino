@@ -17,11 +17,11 @@ ATM90E36 eic(10);
 
 void setup() {
   /* Initialize the serial port to host */
-  Serial.begin(115200);
+  DEBUG_PORT.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB
   }
-  Serial.println("Start ATM90E36");
+  DEBUG_PORT.println("Start ATM90E36");
   /*Initialise the ATM90E36 + SPI port */
   eic.begin();
   delay(1000);
