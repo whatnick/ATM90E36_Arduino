@@ -432,15 +432,15 @@ void ATM90E36::begin()
   CommEnergyIC(WRITE, ConfigStart, 0x5678); // Metering calibration startup 
   CommEnergyIC(WRITE, PLconstH, 0x0861);    // PL Constant MSB (default)
   CommEnergyIC(WRITE, PLconstL, 0xC468);    // PL Constant LSB (default)
-  CommEnergyIC(WRITE, MMode0, 0x1087);      // Mode Config (60 Hz, 3P4W)
-  CommEnergyIC(WRITE, MMode1, 0x1500);      // 0x5555 (x2) // 0x0000 (1x)
+  CommEnergyIC(WRITE, MMode0, 0x0087);      // Mode Config // 0x0087 (50 Hz, 3P4W) // 0x1087 (60 Hz, 3P4W)
+  CommEnergyIC(WRITE, MMode1, 0x0000);      // 0x5555 (x2) // 0x0000 (1x)
   CommEnergyIC(WRITE, PStartTh, 0x0000);    // Active Startup Power Threshold
   CommEnergyIC(WRITE, QStartTh, 0x0000);    // Reactive Startup Power Threshold
   CommEnergyIC(WRITE, SStartTh, 0x0000);    // Apparent Startup Power Threshold
   CommEnergyIC(WRITE, PPhaseTh, 0x0000);    // Active Phase Threshold
   CommEnergyIC(WRITE, QPhaseTh, 0x0000);    // Reactive Phase Threshold
   CommEnergyIC(WRITE, SPhaseTh, 0x0000);    // Apparent  Phase Threshold
-  CommEnergyIC(WRITE, CSZero, 0x4741);      // Checksum 0
+  CommEnergyIC(WRITE, CSZero, 0x421C);      // Checksum 0
   
   //Set metering calibration values (CALIBRATION)
   CommEnergyIC(WRITE, CalStart, 0x5678);    // Metering calibration startup 
@@ -470,26 +470,26 @@ void ATM90E36::begin()
 
   //Set measurement calibration values (ADJUST)
   CommEnergyIC(WRITE, AdjStart, 0x5678);    // Measurement calibration
-  CommEnergyIC(WRITE, UgainA, 0x0002);      // A SVoltage rms gain
-  CommEnergyIC(WRITE, IgainA, 0xFD7F);      // A line current gain
+  CommEnergyIC(WRITE, UgainA, 0xCE40);      // A SVoltage rms gain
+  CommEnergyIC(WRITE, IgainA, 0x7530);      // A line current gain
   CommEnergyIC(WRITE, UoffsetA, 0x0000);    // A Voltage offset
   CommEnergyIC(WRITE, IoffsetA, 0x0000);    // A line current offset
-  CommEnergyIC(WRITE, UgainB, 0x0002);      // B Voltage rms gain
-  CommEnergyIC(WRITE, IgainB, 0xFD7F);      // B line current gain
+  CommEnergyIC(WRITE, UgainB, 0xCE40);      // B Voltage rms gain
+  CommEnergyIC(WRITE, IgainB, 0x7530);      // B line current gain
   CommEnergyIC(WRITE, UoffsetB, 0x0000);    // B Voltage offset
   CommEnergyIC(WRITE, IoffsetB, 0x0000);    // B line current offset
-  CommEnergyIC(WRITE, UgainC, 0x0002);      // C Voltage rms gain
-  CommEnergyIC(WRITE, IgainC, 0xFD7F);      // C line current gain
+  CommEnergyIC(WRITE, UgainC, 0xCE40);      // C Voltage rms gain
+  CommEnergyIC(WRITE, IgainC, 0x7530);      // C line current gain
   CommEnergyIC(WRITE, UoffsetC, 0x0000);    // C Voltage offset
   CommEnergyIC(WRITE, IoffsetC, 0x0000);    // C line current offset
-  CommEnergyIC(WRITE, IgainN, 0xFD7F);      // C line current gain
-  CommEnergyIC(WRITE, CSThree, 0x02F6);     // Checksum 3
+  CommEnergyIC(WRITE, IgainN, 0x7530);      // N line current gain
+  CommEnergyIC(WRITE, IoffsetN, 0x0000);    // N line current offset
+  CommEnergyIC(WRITE, CSThree, 0x8EBE);     // Checksum 3
 
-  // Done with the configuration
-  CommEnergyIC(WRITE, ConfigStart, 0x5678);
-  CommEnergyIC(WRITE, CalStart, 0x5678);    // 0x6886 //0x5678 //8765);
-  CommEnergyIC(WRITE, HarmStart, 0x5678);   // 0x6886 //0x5678 //8765);    
-  CommEnergyIC(WRITE, AdjStart, 0x5678);    // 0x6886 //0x5678 //8765);  
-
-  CommEnergyIC(WRITE, SoftReset, 0x789A);   // Perform soft reset  
+  // Done with the calibration, set to 0x8765 for Operation;
+  CommEnergyIC(WRITE, ConfigStart, 0x8765);
+  CommEnergyIC(WRITE, CalStart, 0x8765);
+  CommEnergyIC(WRITE, HarmStart, 0x8765);
+  CommEnergyIC(WRITE, AdjStart, 0x8765);
+  
 }
